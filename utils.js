@@ -57,7 +57,20 @@ function characterMap(character) {
     }
 }
 
+function formatOutput(token) {
+    const length = 16;
+    const len = token.value.length;
+    let str = '';
+    for(let i = 0; i < length - len; i++) {
+        str += ' ';
+    }
+    str += token.value;
+    str += ' ' + token.type + '\n';
+    return str;
+}
+
 module.exports = {
     identifierMap: identifierMap,
-    characterMap: characterMap
+    characterMap: characterMap,
+    formatOutput: formatOutput
 }

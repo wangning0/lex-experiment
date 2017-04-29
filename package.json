@@ -4,11 +4,14 @@
   "description": "编译原理实验",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node index.js"
   },
   "keywords": [
     "lex"
   ],
+  "bin": {
+    "index": "index"
+  },
   "author": "wing",
   "license": "ISC"
 }
