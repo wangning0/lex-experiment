@@ -14,14 +14,9 @@ module.exports = function(tokens) {
                 }, () => {})
             })
         } else {
-            fs.writeFile('test.dyd', utils.formatOutput(i), {
+            fs.writeFileSync('test.dyd', utils.formatOutput(i), {
                 encoding: 'utf8',
                 flag: 'a'
-            }, (err) => {
-                fs.writeFile('error.log', i.value, {
-                    encoding: 'utf8',
-                    flag: 'a'
-                },() => {})
             })
         }
     })    
