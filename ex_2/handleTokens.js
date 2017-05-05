@@ -1,5 +1,6 @@
 const nextToken = require('./nextToken');
 const error = require('./error');
+const clone = require('./clone');
 const {SIGN_UNDEFINED_ERR, SIGN_REDEFINED_ERR, SIGN_EXECUTE_ERR, NO_SIGN_ERR, NO_PARA_ERR, SIGN_RESERVE_ERR} = require('./constant');
 // 程序的入口 A->B
 function A() {
@@ -17,7 +18,7 @@ function B() {
         }
     }
     C();
-    if( input[pToken] == ';') {
+    if(input[pToken] == ';') {
         nextToken();
     } else {
         error(NO_SIGN_ERR, ';');
@@ -26,7 +27,7 @@ function B() {
         }
     }
     M();
-    if(input[pToken] != 'end') {
+    if(input[pToken] == 'end') {
         nextToken();
     } else {
         error(NO_SIGN_ERR, 'end');
@@ -79,7 +80,7 @@ function E() {
     } else {
         currentVar.vkind = false;
     }
-    currentVar.vtype = 'integer'; // !!!!!!!
+    currentVar.vtype = 'integer'; 
 	currentVar.vlev = currentPro.plev;
 	currentVar.vadr = varCount;
     if (isVarExisted(input[pToken], currentPro.pname, currentVar.vkind)) { //如果存在变量
@@ -92,7 +93,7 @@ function E() {
 		currentPro.ladr = currentVar.vadr;//过程中最后一个变量在变量表中的位置
 		currentPro.varNum++;//过程中变量数++
         //vars[varCount] 
-		vars[varCount] = currentVar;//当前变量存入var数组
+		vars[varCount] = clone(currentVar);//当前变量存入var数组
 		varCount++;//变量数++
     }
     F();
@@ -270,7 +271,7 @@ function S_() {
 function T() {
     if (input[pToken][pChar] >= '0' && input[pToken][pChar] <= '9'){
 		U();
-	} else if (input[pToken] == '('){///////////////////////pToken+1
+	} else if (input[getNextToken()] == '('){///////////////////////pToken+1
 		Z();
 	} else {
 		if (!isVarExisted(input[pToken], currentPro.pname, false) && !isVarExisted(input[pToken], currentPro.pname, true)){
@@ -319,7 +320,7 @@ function W() {
 
 // J: 函数说明 J->integer function G(K);L
 function J() {
-    const proBackup = currentPro;
+    const proBackup = clone(currentPro);
     if(input[pToken] == 'integer') {
         nextToken();
     } else {
@@ -375,7 +376,7 @@ function J() {
     }
     L();
 
-    currentPro = proBackup;//匹配完G过程后恢复原过程
+    currentPro = clone(proBackup);//匹配完G过程后恢复原过程
 }
 
 //K：参数				K->F
@@ -391,7 +392,6 @@ function G() {
 }
 
 function L() {
-    console.log(121212);
     if(input[pToken] == 'begin') {
         nextToken();
     } else {
@@ -400,11 +400,12 @@ function L() {
             nextToken();
         }
     }
-    if (!currentPro.parameterIsDefined)
-	{
-		error(NO_PARA_ERR, input[currentPro.parameter]);
-	}
-	pros[proCount] = currentPro;//在这里而不是在J()函数最后把currentPro加入pro数组是因为M中可能会使用当前过程(递归)
+    C();
+    // if (!currentPro.parameterIsDefined)
+	// {
+	// 	error(NO_PARA_ERR, input[currentPro.parameter]);
+	// }
+	pros[proCount] = clone(currentPro);//在这里而不是在J()函数最后把currentPro加入pro数组是因为M中可能会使用当前过程(递归)
 	proCount++;
     if(input[pToken] == ';') {
         nextToken();
@@ -415,7 +416,7 @@ function L() {
         }
     }
     M();
-    if(input[pToken] != 'end') {
+    if(input[pToken] == 'end') {
         nextToken();
     } else {
         error(NO_SIGN_ERR, 'end');
@@ -465,7 +466,7 @@ function Z() {
 	}
 	else {
 		error(NO_SIGN_ERR, ")");
-        if(kind[pToken] != '-' || kind[pToken] != '*' || kind[pToken] != ';' && kind[pToken] > 'end') {
+        if(kind[pToken] != '-' && kind[pToken] != '*' && kind[pToken] != ';' && kind[pToken] != 'end') {
             nextToken();
         }
 	}

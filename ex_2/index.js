@@ -24,13 +24,13 @@ global.currentPro = { // 存放当前过程的信息
     fadr: 0,
     ladr: 0,
     parameter: 0,
-    parameterIsDefined: false,
+    parameterIsDefined: '',
     ptype: ''
 },
 global.currentVar = { // 存放当前变量的信息
     vname: '',
     vproc: '',
-    vkind: false,
+    vkind: '',
     vlev: 0,
     vadr: 0,
     vtype: ''
