@@ -1,0 +1,8 @@
+module.exports = {
+    MAX_COUNT: 1024,
+    SYMBOL_UNDEFINED: 1,
+    SYMBOL_REDEFINED: 2,
+    SYMBOL_NONE: 3,
+    SYMBOL_NO_MATCH: 4,
+    ERR_EXECUTE: 5
+}
