@@ -74,7 +74,7 @@ function E() {
     }
     currentVar.vname = input[pToken];
     currentVar.vproc = currentPro.pname;
-    if(pToken == currentPro.parameter) {
+    if(input[pToken] ==input[ currentPro.parameter]) {
         currentVar.vkind = true;
         currentPro.parameterIsDefined = true;
     } else {
@@ -401,10 +401,10 @@ function L() {
         }
     }
     C();
-    // if (!currentPro.parameterIsDefined)
-	// {
-	// 	error(NO_PARA_ERR, input[currentPro.parameter]);
-	// }
+    if (!currentPro.parameterIsDefined)
+	{
+		error(NO_PARA_ERR, input[currentPro.parameter]);
+	}
 	pros[proCount] = clone(currentPro);//在这里而不是在J()函数最后把currentPro加入pro数组是因为M中可能会使用当前过程(递归)
 	proCount++;
     if(input[pToken] == ';') {
